@@ -1,0 +1,79 @@
+# this is a comment
+# source : https://www.youtube.com/watch?v=1uFVr15xDGg
+
+# For technologies like Docker, Kubernetes, Ansible, Prometheus etc. the configuration is written in YAML
+# in general, it is widely used format for different devops tools and applications
+
+# YAML is a data serialization language (standard format for data transfer) like XML, JSON
+# YAML full form : YAML Aint Markup Language
+# file extensions : .yaml, .yml
+
+# SYNTAX
+
+# key-value pairs
+app: user-authentication      # for strings you can use "" or '' or no quotes (for using special characters like \n, enclose it in "")
+port: 9000
+version: 1.7
+
+# object
+microservice: # this is an object with three attributes
+  app: "user-authentication"
+  port: 9000
+  version: 1.7
+
+# since yaml is very sensitive with indentations, you can use online tools like : https://jsonformatter.org/yaml-validator
+# to check for any errors
+
+# list : use - for list items
+# following is a list of objects
+microservices:
+  - app: user-authentication
+    port: 9000
+    version: 1.7
+    deployed: yes # true/false yes/no on/off <- boolean values
+  - app: shopping-cart
+    port: 9002
+    versions: 
+    - 1.9 # here versions is a list of numbers
+    - 2.1 # and indentation is same as that of versions (i.e. no indentation) <- this is valid, just make sure that all list items are at similar indentation
+    - 3.2
+    new-versions: ["4.0", 4.1, 4.2] # list of primitive items can also be expressed as []
+
+# list of simple items, like list of microservice names
+microservice-names:
+  - user-authentication
+  - shopping-cart
+
+# multiline strings
+multilineString: |    # <- that pipe symbol is needed to convert a string to multiline
+  this is a multiline string
+  and this is a next line
+  next line
+
+singlelineString: >   # <- that > symbol enables us to write a single line string into multiple lines as shown
+  this is a single line string, 
+  that should be all on one line. 
+  some other stuff
+
+# $ sign is used to access environment variables
+# example
+command:
+  - /bin/sh
+  - -ec
+  - >-
+    mysql -h 127.0.0.1 -u root -p $MYSQL_ROOT_PASSWORD -e 'SELECT 1'
+
+# placeholders
+# yaml supports placeholders which can be filled later with valid data
+# use {{}} for placeholders
+# example:
+metadata: 
+  name: {{ .Values.service.name }}
+
+# in one yaml document, you can provide multiple yaml documents
+# use --- as a seperator
+# this can be very handy in kubernetes especially bcz there maybe multiple components for one service and you want to group them in one file
+
+---
+
+this_is: a separate document from
